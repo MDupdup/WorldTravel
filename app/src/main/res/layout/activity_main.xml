@@ -6,4 +6,21 @@
     android:layout_height="match_parent"
     tools:context="com.ynov.malo.worldtravel.MainActivity">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_visited_places"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_add_country"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Ajouter un pays"
+        android:background="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 </android.support.constraint.ConstraintLayout>
