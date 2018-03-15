@@ -19,7 +19,7 @@ import com.ynov.malo.worldtravel.RecyclerDivider.DividerItemDecorator;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements RecyclerView.OnItemTouchListener {
+public class MainActivity extends AppCompatActivity {
 
     CountriesDAO dao;
 
@@ -43,7 +43,13 @@ public class MainActivity extends AppCompatActivity implements RecyclerView.OnIt
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        CountriesAdapter countriesAdapter = new CountriesAdapter(dao.getAllCountries(),this);
+        CountriesAdapter countriesAdapter = new CountriesAdapter(dao.getAllCountries(), this, new CountriesAdapter.CountriesAdapterListener() {
+            @Override
+            public void imageViewOnClick(View v, int position) {
+                deleteCountryToVisit(position);
+            }
+        });
+
         recyclerView.setAdapter(countriesAdapter);
 
         gestureDetector = new GestureDetector(this,
@@ -54,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerView.OnIt
                     }
                 });
 
-        recyclerView.addOnItemTouchListener(this);
+        //recyclerView.addOnItemTouchListener(this);
     }
 
 
@@ -63,8 +69,12 @@ public class MainActivity extends AppCompatActivity implements RecyclerView.OnIt
         startActivity(intentListAllCountries);
     }
 
+    public void deleteCountryToVisit(int position) {
+        dao.deleteCountry(position);
+    }
 
-    @Override
+
+/*    @Override
     public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent me) {
         if (gestureDetector.onTouchEvent(me))
         {
@@ -98,5 +108,5 @@ public class MainActivity extends AppCompatActivity implements RecyclerView.OnIt
     @Override
     public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
-    }
+    }*/
 }

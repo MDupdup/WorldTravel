@@ -21,9 +21,18 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountryViewHolder> {
 
     private Context context;
 
+    public CountriesAdapterListener onClickListener;
+
     public CountriesAdapter(List<Country> listCountries, Context context) {
         this.listCountries = listCountries;
         this.context = context;
+    }
+
+    public CountriesAdapter(List<Country> listCountries, Context context, CountriesAdapterListener listener) {
+        this.listCountries = listCountries;
+        this.context = context;
+        this.onClickListener = listener;
+
     }
 
     @Override
@@ -33,7 +42,7 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountryViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(CountryViewHolder holder, int position) {
+    public void onBindViewHolder(CountryViewHolder holder, final int position) {
         holder.getTextViewcountryName().setText(listCountries.get(position).getName());
         holder.getTextViewcountryCapitalCity().setText(listCountries.get(position).getCapitalCity());
         holder.getTextViewcountryContinent().setText(listCountries.get(position).getContinent());
@@ -43,6 +52,18 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountryViewHolder> {
                 .placeholder(context.getResources().getDrawable(R.drawable.ic_hourglass_loading))
                 .error(context.getResources().getDrawable(R.drawable.ic_error))
                 .into(holder.getImageViewcountryFlag());
+
+        holder.getImageViewDelete().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickListener.imageViewOnClick(view,position);
+            }
+        });
+    }
+
+
+    public interface CountriesAdapterListener {
+        void imageViewOnClick(View v, int position);
     }
 
     @Override

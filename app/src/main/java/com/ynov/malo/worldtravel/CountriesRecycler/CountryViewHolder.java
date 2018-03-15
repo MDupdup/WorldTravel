@@ -19,6 +19,8 @@ public class CountryViewHolder extends RecyclerView.ViewHolder {
     private TextView textViewcountryContinent = null;
     private TextView textViewcountryDate = null;
 
+    private ImageView imageViewDelete = null;
+
 
     public CountryViewHolder(View itemView) {
         super(itemView);
@@ -28,7 +30,10 @@ public class CountryViewHolder extends RecyclerView.ViewHolder {
         textViewcountryCapitalCity = itemView.findViewById(R.id.country_capital_city);
         textViewcountryContinent = itemView.findViewById(R.id.country_continent);
         textViewcountryDate = itemView.findViewById(R.id.country_date);
+
+        imageViewDelete = itemView.findViewById(R.id.delete_country_entry);
     }
+
 
     public TextView getTextViewcountryName() {
         return textViewcountryName;
@@ -48,5 +53,9 @@ public class CountryViewHolder extends RecyclerView.ViewHolder {
 
     public TextView getTextViewcountryDate() {
         return textViewcountryDate;
+    }
+
+    public ImageView getImageViewDelete() {
+        return imageViewDelete;
     }
 }
