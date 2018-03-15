@@ -21,7 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "name TEXT," +
                 "capital_city TEXT," +
                 "continent TEXT," +
-                "flag BLOB," +
+                "country_code TEXT," +
                 "date TEXT)");
     }
 

@@ -13,14 +13,21 @@ public class Country {
     private String name;
     private String capitalCity;
     private String continent;
-    private byte[] flag;
     private String date;
+    private String countryCode;
 
-    public Country(String name, String capitalCity, String continent, byte[] flag, String date) {
+    public Country(String name, String capitalCity, String continent, String countryCode) {
         this.name = name;
         this.capitalCity = capitalCity;
         this.continent = continent;
-        this.flag = flag;
+        this.countryCode = countryCode;
+    }
+
+    public Country(String name, String capitalCity, String continent, String countryCode, String date) {
+        this.name = name;
+        this.capitalCity = capitalCity;
+        this.continent = continent;
+        this.countryCode = countryCode;
         this.date = date;
     }
 
@@ -45,12 +52,11 @@ public class Country {
         return continent;
     }
 
-    public byte[] getFlag() {
-        return flag;
-    }
-
     public String getDate() {
         return date;
     }
 
+    public String getCountryCode() {
+        return countryCode;
+    }
 }

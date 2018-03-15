@@ -1,10 +1,12 @@
 package com.ynov.malo.worldtravel.CountriesRecycler;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.picasso.Picasso;
 import com.ynov.malo.worldtravel.R;
 
 import java.util.List;
@@ -17,8 +19,11 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountryViewHolder> {
 
     private List<Country> listCountries = null;
 
-    public CountriesAdapter(List<Country> listCountries) {
+    private Context context;
+
+    public CountriesAdapter(List<Country> listCountries, Context context) {
         this.listCountries = listCountries;
+        this.context = context;
     }
 
     @Override
@@ -32,7 +37,12 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountryViewHolder> {
         holder.getTextViewcountryName().setText(listCountries.get(position).getName());
         holder.getTextViewcountryCapitalCity().setText(listCountries.get(position).getCapitalCity());
         holder.getTextViewcountryContinent().setText(listCountries.get(position).getContinent());
-        holder.getTextViewcountryDate().setText(listCountries.get(position).getDate().toString());
+        holder.getTextViewcountryDate().setText(listCountries.get(position).getDate());
+        Picasso.with(context)
+                .load("http://www.geognos.com/api/en/countries/flag/" + listCountries.get(position).getCountryCode() + ".png")
+                .placeholder(context.getResources().getDrawable(R.drawable.ic_hourglass_loading))
+                .error(context.getResources().getDrawable(R.drawable.ic_error))
+                .into(holder.getImageViewcountryFlag());
     }
 
     @Override

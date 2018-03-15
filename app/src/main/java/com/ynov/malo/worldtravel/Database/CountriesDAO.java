@@ -27,7 +27,7 @@ public class CountriesDAO {
                 BaseContract.CountriesContract.COLUMN_COUNTRY_NAME,
                 BaseContract.CountriesContract.COLUMN_COUNTRY_CAPITAL_CITY,
                 BaseContract.CountriesContract.COLUMN_COUNTRY_CONTINENT,
-                BaseContract.CountriesContract.COLUMN_COUNTRY_FLAG,
+                BaseContract.CountriesContract.COLUMN_COUNTRY_COUNTRY_CODE,
                 BaseContract.CountriesContract.COLUMN_COUNTRY_DATE
         };
 
@@ -54,7 +54,7 @@ public class CountriesDAO {
                             cs.getString(cs.getColumnIndex(BaseContract.CountriesContract.COLUMN_COUNTRY_NAME)),
                             cs.getString(cs.getColumnIndex(BaseContract.CountriesContract.COLUMN_COUNTRY_CAPITAL_CITY)),
                             cs.getString(cs.getColumnIndex(BaseContract.CountriesContract.COLUMN_COUNTRY_CONTINENT)),
-                            cs.getBlob(cs.getColumnIndex(BaseContract.CountriesContract.COLUMN_COUNTRY_FLAG)),
+                            cs.getString(cs.getColumnIndex(BaseContract.CountriesContract.COLUMN_COUNTRY_COUNTRY_CODE)),
                             cs.getString(cs.getColumnIndex(BaseContract.CountriesContract.COLUMN_COUNTRY_DATE))
                             )
                     );
@@ -75,19 +75,19 @@ public class CountriesDAO {
 
         ContentValues values = new ContentValues();
         values.put(BaseContract.CountriesContract.COLUMN_COUNTRY_NAME, country.getName());
-        values.put(BaseContract.CountriesContract.COLUMN_COUNTRY_NAME, country.getCapitalCity());
-        values.put(BaseContract.CountriesContract.COLUMN_COUNTRY_NAME, country.getContinent());
-        values.put(BaseContract.CountriesContract.COLUMN_COUNTRY_NAME, country.getFlag());
-        values.put(BaseContract.CountriesContract.COLUMN_COUNTRY_NAME, country.getDate());
+        values.put(BaseContract.CountriesContract.COLUMN_COUNTRY_CAPITAL_CITY, country.getCapitalCity());
+        values.put(BaseContract.CountriesContract.COLUMN_COUNTRY_CONTINENT, country.getContinent());
+        values.put(BaseContract.CountriesContract.COLUMN_COUNTRY_COUNTRY_CODE, country.getCountryCode());
+        values.put(BaseContract.CountriesContract.COLUMN_COUNTRY_DATE, country.getDate());
 
         country.setId(db.insert(BaseContract.CountriesContract.TABLE_COUNTRIES, null, values));
     }
 
-    public void deleteCountry(Country country) {
+    public void deleteCountry(int position) {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
 
         String selection = BaseContract.CountriesContract._ID + " = ? ";
-        String[] selectionArgs = {String.valueOf(country.getId())};
+        String[] selectionArgs = {String.valueOf(position)};
 
         db.delete(BaseContract.CountriesContract.TABLE_COUNTRIES, selection, selectionArgs);
     }
