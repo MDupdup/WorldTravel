@@ -23,9 +23,10 @@
             android:textSize="25sp"
             android:textColor="@color/colorWhite"
             android:background="@color/altColorAccent"
-            android:onClick="validateSearch"/>
+            android:onClick="searchForCountries"/>
 
         <EditText
+            android:id="@+id/search_input"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingLeft="15dp"

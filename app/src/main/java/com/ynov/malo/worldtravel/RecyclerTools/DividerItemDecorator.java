@@ -1,4 +1,4 @@
-package com.ynov.malo.worldtravel.RecyclerDivider;
+package com.ynov.malo.worldtravel.RecyclerTools;
 
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;

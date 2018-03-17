@@ -6,20 +6,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-import com.ynov.malo.worldtravel.CountriesRecycler.CountriesAdapter;
 import com.ynov.malo.worldtravel.CountriesRecycler.Country;
 import com.ynov.malo.worldtravel.CountriesSelectRecycler.CountriesSelectAdapter;
-import com.ynov.malo.worldtravel.Database.CountriesDAO;
-import com.ynov.malo.worldtravel.RecyclerDivider.DividerItemDecorator;
+import com.ynov.malo.worldtravel.RecyclerTools.DividerItemDecorator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,13 +27,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import cz.msebera.android.httpclient.entity.mime.Header;
-
 public class CountryActivity extends AppCompatActivity implements RecyclerView.OnItemTouchListener {
 
     private List<Country> listCountriesFromAPI = new ArrayList<>();
+    private List<Country> selectedListCountriesFromAPI = new ArrayList<>();
     CountriesSelectAdapter countriesSelectAdapter;
 
+    EditText searchEditText;
     RecyclerView recyclerView;
 
     GestureDetector gestureDetector;
@@ -43,6 +42,8 @@ public class CountryActivity extends AppCompatActivity implements RecyclerView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_country);
+
+        searchEditText = findViewById(R.id.search_input);
 
         recyclerView = findViewById(R.id.list_all_countries);
         recyclerView.setHasFixedSize(true);
@@ -93,6 +94,17 @@ public class CountryActivity extends AppCompatActivity implements RecyclerView.O
             }
         }
         return false;
+    }
+
+
+    public void searchForCountries(View view) {
+        for(int i = 0; i < listCountriesFromAPI.size(); i++) {
+            if(listCountriesFromAPI.get(i).getName().toLowerCase().equals(searchEditText.getText().toString().toLowerCase())) {
+                selectedListCountriesFromAPI.add(listCountriesFromAPI.get(i));
+            }
+        }
+        countriesSelectAdapter = new CountriesSelectAdapter(selectedListCountriesFromAPI,this);
+        recyclerView.setAdapter(countriesSelectAdapter);
     }
 
 

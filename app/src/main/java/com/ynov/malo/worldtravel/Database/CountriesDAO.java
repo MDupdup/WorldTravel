@@ -24,6 +24,7 @@ public class CountriesDAO {
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
 
         String[] projection = {
+                BaseContract.CountriesContract.COLUMN_COUNTRY_ID,
                 BaseContract.CountriesContract.COLUMN_COUNTRY_NAME,
                 BaseContract.CountriesContract.COLUMN_COUNTRY_CAPITAL_CITY,
                 BaseContract.CountriesContract.COLUMN_COUNTRY_CONTINENT,
@@ -51,6 +52,7 @@ public class CountriesDAO {
                 cs.moveToFirst();
                 while(!cs.isAfterLast()) {
                     listCountries.add(new Country(
+                            cs.getLong(cs.getColumnIndex(BaseContract.CountriesContract.COLUMN_COUNTRY_ID)),
                             cs.getString(cs.getColumnIndex(BaseContract.CountriesContract.COLUMN_COUNTRY_NAME)),
                             cs.getString(cs.getColumnIndex(BaseContract.CountriesContract.COLUMN_COUNTRY_CAPITAL_CITY)),
                             cs.getString(cs.getColumnIndex(BaseContract.CountriesContract.COLUMN_COUNTRY_CONTINENT)),
@@ -70,6 +72,18 @@ public class CountriesDAO {
         return listCountries;
     }
 
+    public Country getCountry(int position) {
+        Country country = null;
+
+        for(int i = 0; i < getAllCountries().size(); i++) {
+            if(getAllCountries().get(i).getId() == position) {
+                country = getAllCountries().get(i);
+            }
+        }
+
+        return country;
+    }
+
     public void addCountry(Country country) {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
 
@@ -83,12 +97,14 @@ public class CountriesDAO {
         country.setId(db.insert(BaseContract.CountriesContract.TABLE_COUNTRIES, null, values));
     }
 
-    public void deleteCountry(int position) {
+    public void deleteCountry(Country country) {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
 
         String selection = BaseContract.CountriesContract._ID + " = ? ";
-        String[] selectionArgs = {String.valueOf(position)};
+        if(country != null) {
+            String[] selectionArgs = {String.valueOf(country.getId())};
+            db.delete(BaseContract.CountriesContract.TABLE_COUNTRIES, selection, selectionArgs);
+        }
 
-        db.delete(BaseContract.CountriesContract.TABLE_COUNTRIES, selection, selectionArgs);
     }
 }

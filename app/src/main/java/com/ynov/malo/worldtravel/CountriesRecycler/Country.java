@@ -31,6 +31,15 @@ public class Country {
         this.date = date;
     }
 
+    public Country(long id, String name, String capitalCity, String continent, String countryCode, String date) {
+        this.id = id;
+        this.name = name;
+        this.capitalCity = capitalCity;
+        this.continent = continent;
+        this.countryCode = countryCode;
+        this.date = date;
+    }
+
 
     public void setId(long id) {
         this.id = id;

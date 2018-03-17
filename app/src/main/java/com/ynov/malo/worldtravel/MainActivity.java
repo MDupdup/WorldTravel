@@ -9,15 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ynov.malo.worldtravel.CountriesRecycler.CountriesAdapter;
-import com.ynov.malo.worldtravel.CountriesRecycler.Country;
 import com.ynov.malo.worldtravel.Database.CountriesDAO;
-import com.ynov.malo.worldtravel.RecyclerDivider.DividerItemDecorator;
-
-import java.util.List;
+import com.ynov.malo.worldtravel.RecyclerTools.DividerItemDecorator;
+import com.ynov.malo.worldtravel.RecyclerTools.RecyclerItemClickListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,14 +40,23 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        CountriesAdapter countriesAdapter = new CountriesAdapter(dao.getAllCountries(), this, new CountriesAdapter.CountriesAdapterListener() {
-            @Override
-            public void imageViewOnClick(View v, int position) {
-                deleteCountryToVisit(position);
-            }
-        });
+        CountriesAdapter countriesAdapter = new CountriesAdapter(dao.getAllCountries(), this);
 
         recyclerView.setAdapter(countriesAdapter);
+
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        if(view.getId() == view.findViewById(R.id.delete_country_entry).getId()) {
+                            Toast.makeText(MainActivity.this,"YAAAAAY "+position+dao.getAllCountries().get(position).getName(),Toast.LENGTH_LONG);
+                            System.out.print("Bonjour ça marche");
+                            dao.deleteCountry(dao.getAllCountries().get(position));
+                        }
+                    }
+                })
+        );
+
 
         gestureDetector = new GestureDetector(this,
                 new GestureDetector.SimpleOnGestureListener() {
@@ -67,10 +73,6 @@ public class MainActivity extends AppCompatActivity {
     public void addCountryToVisit(View v) {
         Intent intentListAllCountries = new Intent(this,CountryActivity.class);
         startActivity(intentListAllCountries);
-    }
-
-    public void deleteCountryToVisit(int position) {
-        dao.deleteCountry(position);
     }
 
 
