@@ -1,5 +1,6 @@
 package com.ynov.malo.worldtravel;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -41,10 +42,14 @@ public class CountryActivity extends AppCompatActivity{
     EditText searchEditText;
     RecyclerView recyclerView;
 
+    public static Activity ca;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_country);
+
+        ca = this;
 
         searchEditText = findViewById(R.id.search_input);
 
@@ -64,6 +69,10 @@ public class CountryActivity extends AppCompatActivity{
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(this, recyclerView, new ClickListener() {
             @Override
             public void onClick(View view, final int position) {
+                if(selectedListCountriesFromAPI.size() > 0) {
+                    listCountriesFromAPI = selectedListCountriesFromAPI;
+                }
+                
                 if(dao.isCountryInDB(listCountriesFromAPI.get(position).getName())) {
                     CountriesDialogFragment dialog = new CountriesDialogFragment();
                     Bundle bundle = new Bundle();
@@ -85,7 +94,12 @@ public class CountryActivity extends AppCompatActivity{
 
     public void startCalendarActivity(int position) {
         Bundle bundle = new Bundle();
-        Intent intentToCalendar = new Intent(CountryActivity.this,CalendarActivity.class);
+
+        if(selectedListCountriesFromAPI.size() > 0) {
+            listCountriesFromAPI = selectedListCountriesFromAPI;
+        }
+
+        Intent intentToCalendar = new Intent(CountryActivity.this, CalendarActivity.class);
         bundle.putString("name",listCountriesFromAPI.get(position).getName());
         bundle.putString("capitalcity",listCountriesFromAPI.get(position).getCapitalCity());
         bundle.putString("continent",listCountriesFromAPI.get(position).getContinent());
@@ -107,6 +121,7 @@ public class CountryActivity extends AppCompatActivity{
         countriesSelectAdapter = new CountriesSelectAdapter(selectedListCountriesFromAPI,this);
         recyclerView.setAdapter(countriesSelectAdapter);
     }
+
 
     public void callAPI() {
         AsyncHttpClient client = new AsyncHttpClient();

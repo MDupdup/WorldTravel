@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">WorldTravel</string>
+    <string name="app_name">World Travel</string>
+    <string name="capital">Capitale :</string>
+    <string name="region">Continent :</string>
+    <string name="add_country">Ajouter un pays</string>
+    <string name="input_country">Saisir un pays...</string>
+    <string name="popup1">Ce pays (</string>
+    <string name="popup2">) est déjà dans votre liste !\nSouhaitez-vous tout de même l'ajouter ?</string>
+    <string name="validate_country">Valider</string>
 </resources>

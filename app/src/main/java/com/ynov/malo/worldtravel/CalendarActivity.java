@@ -41,6 +41,7 @@ public class CalendarActivity extends AppCompatActivity {
         Intent intentToMain = new Intent(CalendarActivity.this,MainActivity.class);
         //intentToMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intentToMain);
+        CountryActivity.ca.finish();
         finish();
     }
 

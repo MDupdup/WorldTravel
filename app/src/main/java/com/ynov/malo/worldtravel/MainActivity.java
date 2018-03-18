@@ -1,5 +1,6 @@
 package com.ynov.malo.worldtravel;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -70,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
     public void addCountryToVisit(View v) {
         Intent intentListAllCountries = new Intent(this,CountryActivity.class);
         startActivity(intentListAllCountries);
-        finish();
     }
 
     public void deleteCountryToVisit(int position) {
