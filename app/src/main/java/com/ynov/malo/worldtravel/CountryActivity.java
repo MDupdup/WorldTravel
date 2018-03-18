@@ -18,7 +18,11 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.ynov.malo.worldtravel.CountriesRecycler.Country;
 import com.ynov.malo.worldtravel.CountriesSelectRecycler.CountriesSelectAdapter;
+import com.ynov.malo.worldtravel.Database.CountriesDAO;
+import com.ynov.malo.worldtravel.Dialog.CountriesDialogFragment;
+import com.ynov.malo.worldtravel.RecyclerTools.ClickListener;
 import com.ynov.malo.worldtravel.RecyclerTools.DividerItemDecorator;
+import com.ynov.malo.worldtravel.RecyclerTools.RecyclerTouchListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,16 +31,15 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CountryActivity extends AppCompatActivity implements RecyclerView.OnItemTouchListener {
+public class CountryActivity extends AppCompatActivity{
 
     private List<Country> listCountriesFromAPI = new ArrayList<>();
     private List<Country> selectedListCountriesFromAPI = new ArrayList<>();
     CountriesSelectAdapter countriesSelectAdapter;
+    CountriesDAO dao;
 
     EditText searchEditText;
     RecyclerView recyclerView;
-
-    GestureDetector gestureDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,70 +59,54 @@ public class CountryActivity extends AppCompatActivity implements RecyclerView.O
 
         callAPI();
 
-        gestureDetector = new GestureDetector(this,
-                new GestureDetector.SimpleOnGestureListener() {
-                    @Override
-                    public boolean onSingleTapUp(MotionEvent event) {
-                        return true;
-                    }
-                });
+        dao = new CountriesDAO(this);
 
-        recyclerView.addOnItemTouchListener(this);
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(this, recyclerView, new ClickListener() {
+            @Override
+            public void onClick(View view, final int position) {
+                if(dao.isCountryInDB(listCountriesFromAPI.get(position).getName())) {
+                    CountriesDialogFragment dialog = new CountriesDialogFragment();
+                    Bundle bundle = new Bundle();
+                    System.out.print("Bonjour "+position);
+                    bundle.putInt("position", position);
+                    bundle.putString("name",listCountriesFromAPI.get(position).getName());
 
+                    dialog.setArguments(bundle);
+
+                    dialog.show(getSupportFragmentManager(), "askcoutries");
+
+                } else {
+                    startCalendarActivity(position);
+                }
+            }
+        }));
     }
 
 
-    @Override
-    public boolean onInterceptTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent)
-    {
-        if (gestureDetector.onTouchEvent(motionEvent))
-        {
-            View child = recyclerView.findChildViewUnder(motionEvent.getX(),
-                    motionEvent.getY());
-            if (child != null)
-            {
-                int position = recyclerView.getChildAdapterPosition(child);
+    public void startCalendarActivity(int position) {
+        Bundle bundle = new Bundle();
+        Intent intentToCalendar = new Intent(CountryActivity.this,CalendarActivity.class);
+        bundle.putString("name",listCountriesFromAPI.get(position).getName());
+        bundle.putString("capitalcity",listCountriesFromAPI.get(position).getCapitalCity());
+        bundle.putString("continent",listCountriesFromAPI.get(position).getContinent());
+        bundle.putString("countrycode",listCountriesFromAPI.get(position).getCountryCode());
+        intentToCalendar.putExtras(bundle);
 
-                Bundle bundle = new Bundle();
-                Intent intentToCalendar = new Intent(CountryActivity.this,CalendarActivity.class);
-                bundle.putString("name",listCountriesFromAPI.get(position).getName());
-                bundle.putString("capitalcity",listCountriesFromAPI.get(position).getCapitalCity());
-                bundle.putString("continent",listCountriesFromAPI.get(position).getContinent());
-                bundle.putString("countrycode",listCountriesFromAPI.get(position).getCountryCode());
-                intentToCalendar.putExtras(bundle);
-
-                startActivity(intentToCalendar);
-
-                return true;
-            }
-        }
-        return false;
+        startActivity(intentToCalendar);
     }
 
 
     public void searchForCountries(View view) {
+        selectedListCountriesFromAPI = new ArrayList<>();
+
         for(int i = 0; i < listCountriesFromAPI.size(); i++) {
-            if(listCountriesFromAPI.get(i).getName().toLowerCase().equals(searchEditText.getText().toString().toLowerCase())) {
+            if(listCountriesFromAPI.get(i).getName().toLowerCase().contains(searchEditText.getText().toString().toLowerCase())) {
                 selectedListCountriesFromAPI.add(listCountriesFromAPI.get(i));
             }
         }
         countriesSelectAdapter = new CountriesSelectAdapter(selectedListCountriesFromAPI,this);
         recyclerView.setAdapter(countriesSelectAdapter);
     }
-
-
-    @Override
-    public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
-    }
-
-    @Override
-    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-    }
-
-
-
 
     public void callAPI() {
         AsyncHttpClient client = new AsyncHttpClient();
@@ -159,7 +146,6 @@ public class CountryActivity extends AppCompatActivity implements RecyclerView.O
             public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
                 Toast.makeText(CountryActivity.this,"ça casse",Toast.LENGTH_LONG).show();
             }
-
         });
     }
 }

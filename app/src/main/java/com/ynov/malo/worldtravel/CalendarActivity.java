@@ -9,6 +9,10 @@ import android.widget.DatePicker;
 import com.ynov.malo.worldtravel.CountriesRecycler.Country;
 import com.ynov.malo.worldtravel.Database.CountriesDAO;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class CalendarActivity extends AppCompatActivity {
 
     DatePicker datePicker;
@@ -43,49 +47,11 @@ public class CalendarActivity extends AppCompatActivity {
 
 
     public String prepareDate(DatePicker datePicker) {
-        String day = String.valueOf(datePicker.getDayOfMonth());
-        String month ="";
-        String year = String.valueOf(datePicker.getYear());
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(datePicker.getYear(),datePicker.getMonth(),datePicker.getDayOfMonth());
 
-        switch(datePicker.getMonth()) {
-            case 0:
-                month = "jan.";
-                break;
-            case 1:
-                month = "fév.";
-                break;
-            case 2:
-                month = "mar.";
-                break;
-            case 3:
-                month = "avr.";
-                break;
-            case 4:
-                month = "mai.";
-                break;
-            case 5:
-                month = "juin";
-                break;
-            case 6:
-                month = "jui.";
-                break;
-            case 7:
-                month = "août";
-                break;
-            case 8:
-                month = "sep.";
-                break;
-            case 9:
-                month = "oct.";
-                break;
-            case 10:
-                month = "nov.";
-                break;
-            case 11:
-                month = "déc.";
-                break;
-        }
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-        return day + " " + month + " " + year;
+        return format.format(calendar.getTime());
     }
 }

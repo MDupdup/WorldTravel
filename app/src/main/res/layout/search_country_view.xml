@@ -31,8 +31,10 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:text="France"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:textColor="#000"
+            android:maxLines="1"
+            android:ellipsize="end"
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -42,7 +44,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Capitale : Paris"
-            android:textSize="16sp"
+            android:textSize="14sp"
+            android:maxLines="1"
+            android:ellipsize="end"
 
             android:paddingBottom="2dp"
             app:layout_constraintBottom_toTopOf="@+id/search_country_continent" />
@@ -51,8 +55,10 @@
             android:id="@+id/search_country_continent"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:text="Continent : Europe"
+            android:maxLines="1"
+            android:ellipsize="end"
 
             android:paddingBottom="5dp"
             app:layout_constraintBottom_toBottomOf="parent"

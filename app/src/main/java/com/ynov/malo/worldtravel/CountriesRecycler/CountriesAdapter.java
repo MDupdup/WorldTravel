@@ -7,7 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.squareup.picasso.Picasso;
+import com.ynov.malo.worldtravel.Database.CountriesDAO;
 import com.ynov.malo.worldtravel.R;
+import com.ynov.malo.worldtravel.RecyclerTools.ClickListener;
 
 import java.util.List;
 
@@ -18,6 +20,8 @@ import java.util.List;
 public class CountriesAdapter extends RecyclerView.Adapter<CountryViewHolder> {
 
     private List<Country> listCountries = null;
+
+    private CountriesDAO dao;
 
     private Context context;
 
@@ -36,8 +40,8 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountryViewHolder> {
     @Override
     public void onBindViewHolder(CountryViewHolder holder, final int position) {
         holder.getTextViewcountryName().setText(listCountries.get(position).getName());
-        holder.getTextViewcountryCapitalCity().setText(listCountries.get(position).getCapitalCity());
-        holder.getTextViewcountryContinent().setText(listCountries.get(position).getContinent());
+        holder.getTextViewcountryCapitalCity().setText("Capitale : " + listCountries.get(position).getCapitalCity());
+        holder.getTextViewcountryContinent().setText("Continent : " + listCountries.get(position).getContinent());
         holder.getTextViewcountryDate().setText(listCountries.get(position).getDate());
         Picasso.with(context)
                 .load("http://www.geognos.com/api/en/countries/flag/" + listCountries.get(position).getCountryCode() + ".png")

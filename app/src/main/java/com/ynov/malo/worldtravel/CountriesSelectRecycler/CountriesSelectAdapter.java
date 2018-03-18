@@ -35,8 +35,8 @@ public class CountriesSelectAdapter extends RecyclerView.Adapter<CountrySelectVi
     @Override
     public void onBindViewHolder(CountrySelectViewHolder holder, int position) {
         holder.getTextViewcountryName().setText(listAllCountries.get(position).getName());
-        holder.getTextViewcountryCapitalCity().setText(listAllCountries.get(position).getCapitalCity());
-        holder.getTextViewcountryContinent().setText(listAllCountries.get(position).getContinent());
+        holder.getTextViewcountryCapitalCity().setText("Capitale : " + listAllCountries.get(position).getCapitalCity());
+        holder.getTextViewcountryContinent().setText("Continent : " + listAllCountries.get(position).getContinent());
         Picasso.with(context)
                 .load("http://www.geognos.com/api/en/countries/flag/" + listAllCountries.get(position).getCountryCode() + ".png")
                 .placeholder(context.getResources().getDrawable(R.drawable.ic_hourglass_loading))

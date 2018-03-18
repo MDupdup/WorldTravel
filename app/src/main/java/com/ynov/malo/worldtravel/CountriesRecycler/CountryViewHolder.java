@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ynov.malo.worldtravel.Database.CountriesDAO;
 import com.ynov.malo.worldtravel.R;
 
 /**
@@ -18,8 +19,9 @@ public class CountryViewHolder extends RecyclerView.ViewHolder {
     private TextView textViewcountryCapitalCity = null;
     private TextView textViewcountryContinent = null;
     private TextView textViewcountryDate = null;
-
     private ImageView imageViewDelete = null;
+
+    CountriesDAO dao;
 
 
     public CountryViewHolder(View itemView) {
@@ -30,10 +32,13 @@ public class CountryViewHolder extends RecyclerView.ViewHolder {
         textViewcountryCapitalCity = itemView.findViewById(R.id.country_capital_city);
         textViewcountryContinent = itemView.findViewById(R.id.country_continent);
         textViewcountryDate = itemView.findViewById(R.id.country_date);
-
         imageViewDelete = itemView.findViewById(R.id.delete_country_entry);
-    }
 
+        imageViewDelete.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {}
+        });
+    }
 
     public TextView getTextViewcountryName() {
         return textViewcountryName;
@@ -53,9 +58,5 @@ public class CountryViewHolder extends RecyclerView.ViewHolder {
 
     public TextView getTextViewcountryDate() {
         return textViewcountryDate;
-    }
-
-    public ImageView getImageViewDelete() {
-        return imageViewDelete;
     }
 }

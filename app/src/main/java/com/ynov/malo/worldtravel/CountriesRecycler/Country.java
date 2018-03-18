@@ -9,7 +9,7 @@ import java.sql.Date;
 
 public class Country {
 
-    private long id;
+    private int id;
     private String name;
     private String capitalCity;
     private String continent;
@@ -31,7 +31,7 @@ public class Country {
         this.date = date;
     }
 
-    public Country(long id, String name, String capitalCity, String continent, String countryCode, String date) {
+    public Country(int id, String name, String capitalCity, String continent, String countryCode, String date) {
         this.id = id;
         this.name = name;
         this.capitalCity = capitalCity;
@@ -41,11 +41,11 @@ public class Country {
     }
 
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 

@@ -7,7 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.ynov.malo.worldtravel.CountriesRecycler.Country;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,7 +19,8 @@ import java.util.List;
 
 public class CountriesDAO {
 
-    public static DatabaseHelper databaseHelper;
+    private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    private static DatabaseHelper databaseHelper;
 
     public CountriesDAO(Context context) {databaseHelper = new DatabaseHelper(context);}
 
@@ -32,7 +36,7 @@ public class CountriesDAO {
                 BaseContract.CountriesContract.COLUMN_COUNTRY_DATE
         };
 
-        String sort = BaseContract.CountriesContract.COLUMN_COUNTRY_NAME + " ASC ";
+        String sort = "date(" + BaseContract.CountriesContract.COLUMN_COUNTRY_DATE + ") ASC ";
 
         Cursor cs = db.query(
                 BaseContract.CountriesContract.TABLE_COUNTRIES,
@@ -52,12 +56,12 @@ public class CountriesDAO {
                 cs.moveToFirst();
                 while(!cs.isAfterLast()) {
                     listCountries.add(new Country(
-                            cs.getLong(cs.getColumnIndex(BaseContract.CountriesContract.COLUMN_COUNTRY_ID)),
+                            cs.getInt(cs.getColumnIndex(BaseContract.CountriesContract.COLUMN_COUNTRY_ID)),
                             cs.getString(cs.getColumnIndex(BaseContract.CountriesContract.COLUMN_COUNTRY_NAME)),
                             cs.getString(cs.getColumnIndex(BaseContract.CountriesContract.COLUMN_COUNTRY_CAPITAL_CITY)),
                             cs.getString(cs.getColumnIndex(BaseContract.CountriesContract.COLUMN_COUNTRY_CONTINENT)),
                             cs.getString(cs.getColumnIndex(BaseContract.CountriesContract.COLUMN_COUNTRY_COUNTRY_CODE)),
-                            cs.getString(cs.getColumnIndex(BaseContract.CountriesContract.COLUMN_COUNTRY_DATE))
+                            prepareDate(cs.getString(cs.getColumnIndex(BaseContract.CountriesContract.COLUMN_COUNTRY_DATE)))
                             )
                     );
                     cs.moveToNext();
@@ -72,16 +76,14 @@ public class CountriesDAO {
         return listCountries;
     }
 
-    public Country getCountry(int position) {
-        Country country = null;
-
-        for(int i = 0; i < getAllCountries().size(); i++) {
-            if(getAllCountries().get(i).getId() == position) {
-                country = getAllCountries().get(i);
+    public boolean isCountryInDB(String name) {
+        List<Country> list = getAllCountries();
+        for(int i = 0; i < list.size(); i++) {
+            if(list.get(i).getName().equals(name)) {
+                return true;
             }
         }
-
-        return country;
+        return false;
     }
 
     public void addCountry(Country country) {
@@ -94,17 +96,69 @@ public class CountriesDAO {
         values.put(BaseContract.CountriesContract.COLUMN_COUNTRY_COUNTRY_CODE, country.getCountryCode());
         values.put(BaseContract.CountriesContract.COLUMN_COUNTRY_DATE, country.getDate());
 
-        country.setId(db.insert(BaseContract.CountriesContract.TABLE_COUNTRIES, null, values));
+        country.setId((int) db.insert(BaseContract.CountriesContract.TABLE_COUNTRIES, null, values));
     }
 
-    public void deleteCountry(Country country) {
+    public void deleteCountry(int id) {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
 
         String selection = BaseContract.CountriesContract._ID + " = ? ";
-        if(country != null) {
-            String[] selectionArgs = {String.valueOf(country.getId())};
-            db.delete(BaseContract.CountriesContract.TABLE_COUNTRIES, selection, selectionArgs);
+        String[] selectionArgs = {String.valueOf(id)};
+        db.delete(BaseContract.CountriesContract.TABLE_COUNTRIES, selection, selectionArgs);
+    }
+
+    private String prepareDate(String initDate) {
+        String month;
+        Date date = null;
+
+        try {
+            date = format.parse(initDate);
+        } catch(ParseException e) {
+            e.printStackTrace();
         }
 
+        switch(Integer.valueOf(new SimpleDateFormat("MM").format(date))) {
+            case 0:
+                month = "jan.";
+                break;
+            case 1:
+                month = "fév.";
+                break;
+            case 2:
+                month = "mar.";
+                break;
+            case 3:
+                month = "avr.";
+                break;
+            case 4:
+                month = "mai.";
+                break;
+            case 5:
+                month = "juin";
+                break;
+            case 6:
+                month = "jui.";
+                break;
+            case 7:
+                month = "août";
+                break;
+            case 8:
+                month = "sep.";
+                break;
+            case 9:
+                month = "oct.";
+                break;
+            case 10:
+                month = "nov.";
+                break;
+            case 11:
+                month = "déc.";
+                break;
+            default:
+                month = "null";
+                break;
+        }
+
+        return new SimpleDateFormat("dd").format(date) + " " + month + " " + new SimpleDateFormat("yyyy").format(date);
     }
 }

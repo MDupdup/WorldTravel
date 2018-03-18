@@ -6,23 +6,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.ImageView;
 
 import com.ynov.malo.worldtravel.CountriesRecycler.CountriesAdapter;
+import com.ynov.malo.worldtravel.CountriesRecycler.Country;
 import com.ynov.malo.worldtravel.Database.CountriesDAO;
+import com.ynov.malo.worldtravel.RecyclerTools.ClickListener;
 import com.ynov.malo.worldtravel.RecyclerTools.DividerItemDecorator;
-import com.ynov.malo.worldtravel.RecyclerTools.RecyclerItemClickListener;
+import com.ynov.malo.worldtravel.RecyclerTools.RecyclerTouchListener;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     CountriesDAO dao;
 
-    GestureDetector gestureDetector;
+    List<Country> listDBCountries;
 
     RecyclerView recyclerView;
+    ImageView imageViewDelete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,75 +43,37 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        CountriesAdapter countriesAdapter = new CountriesAdapter(dao.getAllCountries(), this);
+        listDBCountries = dao.getAllCountries();
 
+        final CountriesAdapter countriesAdapter = new CountriesAdapter(listDBCountries, this);
         recyclerView.setAdapter(countriesAdapter);
 
-        recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        if(view.getId() == view.findViewById(R.id.delete_country_entry).getId()) {
-                            Toast.makeText(MainActivity.this,"YAAAAAY "+position+dao.getAllCountries().get(position).getName(),Toast.LENGTH_LONG);
-                            System.out.print("Bonjour ça marche");
-                            dao.deleteCountry(dao.getAllCountries().get(position));
-                        }
-                    }
-                })
-        );
 
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(this, recyclerView, new ClickListener() {
 
-        gestureDetector = new GestureDetector(this,
-                new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public void onClick(View view, final int position) {
+                imageViewDelete = view.findViewById(R.id.delete_country_entry);
+                imageViewDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public boolean onSingleTapUp(MotionEvent event) {
-                        return true;
+                    public void onClick(View view) {
+                        deleteCountryToVisit(listDBCountries.get(position).getId());
+                        listDBCountries.remove(position);
+                        countriesAdapter.notifyItemRemoved(position);
+                        countriesAdapter.notifyItemRangeChanged(position, listDBCountries.size());
                     }
                 });
-
-        //recyclerView.addOnItemTouchListener(this);
+            }
+        }));
     }
-
 
     public void addCountryToVisit(View v) {
         Intent intentListAllCountries = new Intent(this,CountryActivity.class);
         startActivity(intentListAllCountries);
+        finish();
     }
 
-
-/*    @Override
-    public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent me) {
-        if (gestureDetector.onTouchEvent(me))
-        {
-            View child = recyclerView.findChildViewUnder(me.getX(),
-                    me.getY());
-            if (child != null)
-            {
-                final int position = recyclerView.getChildAdapterPosition(child);
-
-                ImageView deletePic = recyclerView.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.delete_country_entry);
-
-                deletePic.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dao.deleteCountry(position);
-                        Toast.makeText(MainActivity.this,"Issou",Toast.LENGTH_LONG).show();
-                    }
-                });
-
-                return true;
-            }
-        }
-        return false;
+    public void deleteCountryToVisit(int position) {
+        dao.deleteCountry(position);
     }
-
-    @Override
-    public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
-    }
-
-    @Override
-    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-    }*/
 }

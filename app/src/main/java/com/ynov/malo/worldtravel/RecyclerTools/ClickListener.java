@@ -1,0 +1,11 @@
+package com.ynov.malo.worldtravel.RecyclerTools;
+
+import android.view.View;
+
+/**
+ * Created by Malo on 17/03/2018.
+ */
+
+public interface ClickListener {
+    void onClick(View view, int position);
+}

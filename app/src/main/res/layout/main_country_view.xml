@@ -40,8 +40,8 @@
 
         <ImageView
             android:id="@+id/delete_country_entry"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginRight="20dp"
             android:src="@drawable/ic_delete"
 
@@ -52,20 +52,24 @@
         <TextView
             android:id="@+id/country_name"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:text="France"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:textColor="#000"
+            android:maxLines="1"
+            android:ellipsize="end"
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/country_capital_city"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="Capitale : Paris"
-            android:textSize="16sp"
+            android:textSize="14sp"
+            android:maxLines="1"
+            android:ellipsize="end"
 
             android:paddingBottom="2dp"
             app:layout_constraintBottom_toTopOf="@+id/country_continent" />
@@ -73,16 +77,15 @@
         <TextView
             android:id="@+id/country_continent"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:textSize="16sp"
+            android:layout_width="200dp"
+            android:textSize="14sp"
             android:text="Continent : Europe"
+            android:maxLines="1"
+            android:ellipsize="end"
 
             android:paddingBottom="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
-
-
-
 </LinearLayout>
