@@ -8,6 +8,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 
 import com.ynov.malo.worldtravel.CountryActivity;
+import com.ynov.malo.worldtravel.R;
 
 /**
  * Created by Malo on 18/03/2018.
@@ -20,7 +21,7 @@ public class CountriesDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Ce pays (" + getArguments().getString("name") + ") est déjà dans votre liste !\nSouhaitez-vous tout de même l'ajouter ?")
+        builder.setMessage(getResources().getString(R.string.popup1) + getArguments().getString("name") + getResources().getString(R.string.popup2))
                 .setPositiveButton("Oui", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

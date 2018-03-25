@@ -76,7 +76,6 @@ public class CountryActivity extends AppCompatActivity{
                 if(dao.isCountryInDB(listCountriesFromAPI.get(position).getName())) {
                     CountriesDialogFragment dialog = new CountriesDialogFragment();
                     Bundle bundle = new Bundle();
-                    System.out.print("Bonjour "+position);
                     bundle.putInt("position", position);
                     bundle.putString("name",listCountriesFromAPI.get(position).getName());
 
@@ -131,7 +130,6 @@ public class CountryActivity extends AppCompatActivity{
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
                 String response = new String(responseBody);
-                Toast.makeText(CountryActivity.this,"ça passe",Toast.LENGTH_LONG).show();
                 try {
                     JSONArray countriesArray = new JSONArray(response);
 
@@ -143,8 +141,6 @@ public class CountryActivity extends AppCompatActivity{
                                 countriesObject.getString("region"),
                                 countriesObject.getString("alpha2Code")
                         ));
-
-                        System.out.print("mdr "+countriesObject.getString("name"));
                     }
 
                     countriesSelectAdapter = new CountriesSelectAdapter(listCountriesFromAPI, CountryActivity.this);

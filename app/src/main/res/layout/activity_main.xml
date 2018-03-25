@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -18,9 +19,9 @@
     <Button
         android:id="@+id/button_add_country"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:text="Ajouter un pays"
-        android:textSize="20dp"
+        android:layout_height="@dimen/buttonHeight"
+        android:text="@string/add_country"
+        android:textSize="@dimen/buttonText"
         android:textColor="#FFF"
         android:background="@color/altColorAccent"
         android:onClick="addCountryToVisit"

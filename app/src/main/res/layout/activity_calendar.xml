@@ -20,10 +20,10 @@
     <Button
         android:id="@+id/button_add_country"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:text="Valider"
-        android:textSize="20dp"
-        android:textColor="#FFF"
+        android:layout_height="@dimen/buttonHeight"
+        android:text="@string/validate_country"
+        android:textSize="@dimen/buttonText"
+        android:textColor="@color/colorWhite"
         android:background="@color/colorValidate"
         android:onClick="validateAll"
 

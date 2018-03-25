@@ -35,13 +35,13 @@
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
-        android:layout_width="285dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/delete_country_entry"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/trashbinDimens"
+            android:layout_height="@dimen/trashbinDimens"
             android:layout_marginRight="20dp"
             android:src="@drawable/ic_delete"
 
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_width="200dp"
             android:text="France"
-            android:textSize="20sp"
+            android:textSize="@dimen/countryNameText"
             android:textColor="@color/colorBlack"
             android:maxLines="1"
             android:ellipsize="end"
@@ -67,7 +67,7 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="Capitale : Paris"
-            android:textSize="14sp"
+            android:textSize="@dimen/countryIntelText"
             android:maxLines="1"
             android:ellipsize="end"
 
@@ -78,7 +78,7 @@
             android:id="@+id/country_continent"
             android:layout_height="wrap_content"
             android:layout_width="200dp"
-            android:textSize="14sp"
+            android:textSize="@dimen/countryIntelText"
             android:text="Continent : Europe"
             android:maxLines="1"
             android:ellipsize="end"

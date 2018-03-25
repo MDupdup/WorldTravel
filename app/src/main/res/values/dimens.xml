@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="buttonText">20sp</dimen>
+    <dimen name="buttonOkText">25sp</dimen>
+    <dimen name="buttonHeight">70dp</dimen>
+
+    <dimen name="countryIntelText">14sp</dimen>
+    <dimen name="countryNameText">20sp</dimen>
+    <dimen name="trashbinDimens">30dp</dimen>
+</resources>
