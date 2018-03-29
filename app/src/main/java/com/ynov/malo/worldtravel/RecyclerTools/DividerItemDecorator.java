@@ -9,6 +9,8 @@ import android.view.View;
  * Created by Malo on 15/03/2018.
  */
 
+
+// Classe qui gere les "barres" de separation entre chaque item des deux recyclerviews (dans Main et Country Activity)
 public class DividerItemDecorator extends RecyclerView.ItemDecoration {
     private Drawable mDivider;
 

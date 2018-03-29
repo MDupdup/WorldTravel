@@ -6,12 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 
-import com.ynov.malo.worldtravel.CountriesRecycler.Country;
+import com.ynov.malo.worldtravel.Database.Country;
 import com.ynov.malo.worldtravel.Database.CountriesDAO;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 public class CalendarActivity extends AppCompatActivity {
 
@@ -30,8 +29,9 @@ public class CalendarActivity extends AppCompatActivity {
 
     }
 
-    public void validateAll(View v) {
 
+    // Methode liee au bouton "Valider" qui recupere la date entree dans le DatePicker et enregistre le nouveau pays dans la bdd
+    public void validateAll(View v) {
         dao.addCountry(new Country(getIntent().getStringExtra("name"),
                 getIntent().getStringExtra("capitalcity"),
                 getIntent().getStringExtra("continent"),
@@ -39,14 +39,13 @@ public class CalendarActivity extends AppCompatActivity {
                 prepareDate(datePicker)));
 
         Intent intentToMain = new Intent(CalendarActivity.this,MainActivity.class);
-        //intentToMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intentToMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intentToMain);
         CountryActivity.ca.finish();
         finish();
     }
 
-
-
+    // Methode qui formate la date depuis le datepicker pour l'enregistrement dans la base de donnees
     public String prepareDate(DatePicker datePicker) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(datePicker.getYear(),datePicker.getMonth(),datePicker.getDayOfMonth());

@@ -14,6 +14,8 @@ import com.ynov.malo.worldtravel.R;
  * Created by Malo on 18/03/2018.
  */
 
+// Dialog qui s'affiche si l'utilisateur clique sur un pays qu'il a deja ajoute auparavant, lui demandant s'il souhaite l'ajouter
+// une deuxieme fois
 public class CountriesDialogFragment extends DialogFragment {
 
     @NonNull

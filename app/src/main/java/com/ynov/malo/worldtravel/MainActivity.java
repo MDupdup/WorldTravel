@@ -1,6 +1,5 @@
 package com.ynov.malo.worldtravel;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.ynov.malo.worldtravel.CountriesRecycler.CountriesAdapter;
-import com.ynov.malo.worldtravel.CountriesRecycler.Country;
+import com.ynov.malo.worldtravel.Database.Country;
 import com.ynov.malo.worldtravel.Database.CountriesDAO;
 import com.ynov.malo.worldtravel.RecyclerTools.ClickListener;
 import com.ynov.malo.worldtravel.RecyclerTools.DividerItemDecorator;
@@ -38,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.list_visited_places);
         recyclerView.setHasFixedSize(true);
 
+        // Ajout des "barres" de separation
         RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecorator(ContextCompat.getDrawable(this, R.drawable.divider));
         recyclerView.addItemDecoration(dividerItemDecoration);
 
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(countriesAdapter);
 
 
+        // Listener sur la corbeille pour supprimer un pays de la liste personnelle de l'utilisateur
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(this, recyclerView, new ClickListener() {
 
             @Override
@@ -68,11 +69,13 @@ public class MainActivity extends AppCompatActivity {
         }));
     }
 
+    // Methode qui lance la seconde activite, a savoir CountryActivity, apres le clic de l'utilisateur sur le bouton "Ajouter un pays"
     public void addCountryToVisit(View v) {
         Intent intentListAllCountries = new Intent(this,CountryActivity.class);
         startActivity(intentListAllCountries);
     }
 
+    // Methode qui supprime le pays dans la bdd apres le clic sur la corbeille de l'utilisateur
     public void deleteCountryToVisit(int position) {
         dao.deleteCountry(position);
     }

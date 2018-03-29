@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.squareup.picasso.Picasso;
-import com.ynov.malo.worldtravel.CountriesRecycler.Country;
+import com.ynov.malo.worldtravel.Database.Country;
 import com.ynov.malo.worldtravel.R;
 
 import java.util.List;
@@ -21,6 +21,7 @@ public class CountriesSelectAdapter extends RecyclerView.Adapter<CountrySelectVi
     private List<Country> listAllCountries = null;
     private Context context;
 
+    // On recupere aussi le context pour Picasso
     public CountriesSelectAdapter(List<Country> listAllCountries, Context context) {
         this.listAllCountries = listAllCountries;
         this.context = context;
@@ -35,8 +36,11 @@ public class CountriesSelectAdapter extends RecyclerView.Adapter<CountrySelectVi
     @Override
     public void onBindViewHolder(CountrySelectViewHolder holder, int position) {
         holder.getTextViewcountryName().setText(listAllCountries.get(position).getName());
-        holder.getTextViewcountryCapitalCity().setText("Capitale : " + listAllCountries.get(position).getCapitalCity());
-        holder.getTextViewcountryContinent().setText("Continent : " + listAllCountries.get(position).getContinent());
+        holder.getTextViewcountryCapitalCity().setText(context.getResources().getString(R.string.capital) + listAllCountries.get(position).getCapitalCity());
+        holder.getTextViewcountryContinent().setText(context.getResources().getString(R.string.region) + listAllCountries.get(position).getContinent());
+
+        // Charge le drapeau du pays depuis le site geognos.com, affiche un sablier le temps du chargement et une icone d'erreur s'il
+        // N'y a pas de drapeau correspondant au pays recherche sur le site
         Picasso.with(context)
                 .load("http://www.geognos.com/api/en/countries/flag/" + listAllCountries.get(position).getCountryCode() + ".png")
                 .placeholder(context.getResources().getDrawable(R.drawable.ic_hourglass_loading))

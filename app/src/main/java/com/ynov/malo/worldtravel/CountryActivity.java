@@ -7,17 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.ynov.malo.worldtravel.CountriesRecycler.Country;
+import com.ynov.malo.worldtravel.Database.Country;
 import com.ynov.malo.worldtravel.CountriesSelectRecycler.CountriesSelectAdapter;
 import com.ynov.malo.worldtravel.Database.CountriesDAO;
 import com.ynov.malo.worldtravel.Dialog.CountriesDialogFragment;
@@ -56,16 +51,19 @@ public class CountryActivity extends AppCompatActivity{
         recyclerView = findViewById(R.id.list_all_countries);
         recyclerView.setHasFixedSize(true);
 
+        // Ajout des "barres" de separation
         RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecorator(ContextCompat.getDrawable(this, R.drawable.divider));
         recyclerView.addItemDecoration(dividerItemDecoration);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
+        // Appel de la methode de requete API
         callAPI();
 
         dao = new CountriesDAO(this);
 
+        // Listener du recyclerview
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(this, recyclerView, new ClickListener() {
             @Override
             public void onClick(View view, final int position) {
@@ -90,7 +88,8 @@ public class CountryActivity extends AppCompatActivity{
         }));
     }
 
-
+    // Methode qui lance la troisieme activite, a savoir CalendarActivity, et envoie en bundle les informations
+    // du pays selectionne par l'utilisateur
     public void startCalendarActivity(int position) {
         Bundle bundle = new Bundle();
 
@@ -109,6 +108,8 @@ public class CountryActivity extends AppCompatActivity{
     }
 
 
+    // Methode qui cree une liste de substitution contenant les pays apres la recherche par mot cle
+    // (cette methode est appelee par le bouton "OK" apres le champ de recherche)
     public void searchForCountries(View view) {
         selectedListCountriesFromAPI = new ArrayList<>();
 
@@ -122,6 +123,7 @@ public class CountryActivity extends AppCompatActivity{
     }
 
 
+    // Appel de l'API qui enregistre les resultats dans une nouvelle liste de pays
     public void callAPI() {
         AsyncHttpClient client = new AsyncHttpClient();
 
@@ -149,13 +151,12 @@ public class CountryActivity extends AppCompatActivity{
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(CountryActivity.this,"ça casse",Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
-                Toast.makeText(CountryActivity.this,"ça casse",Toast.LENGTH_LONG).show();
+                error.printStackTrace();
             }
         });
     }

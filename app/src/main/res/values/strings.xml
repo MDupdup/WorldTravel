@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">World Travel</string>
-    <string name="capital">Capitale :</string>
-    <string name="region">Continent :</string>
+    <string name="capital">Capitale : </string>
+    <string name="region">Continent : </string>
     <string name="add_country">Ajouter un pays</string>
     <string name="input_country">Saisir un pays...</string>
     <string name="popup1">Ce pays (</string>

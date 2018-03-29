@@ -9,23 +9,27 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list_visited_places"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        app:layout_constraintBottom_toTopOf="@id/button_add_country"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button_add_country"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="@dimen/buttonHeight"
-        android:text="@string/add_country"
-        android:textSize="@dimen/buttonText"
-        android:textColor="#FFF"
         android:background="@color/altColorAccent"
         android:onClick="addCountryToVisit"
+        android:text="@string/add_country"
 
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:textColor="#FFF"
+        android:textSize="@dimen/buttonText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
 </android.support.constraint.ConstraintLayout>

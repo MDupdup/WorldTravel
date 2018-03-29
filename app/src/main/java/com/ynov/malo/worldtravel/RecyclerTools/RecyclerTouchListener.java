@@ -10,6 +10,8 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
+// Classe qui herite de l'interface ClickListener, et gere le clic utilisateur pour des items a l'interieur des recyclerviews
+// Donc ici pour le clic de l'utilisateur sur la corbeille dans le recyclerview de MainActivity
 public class RecyclerTouchListener implements RecyclerView.OnItemTouchListener, ClickListener {
 
     private ClickListener mListener;

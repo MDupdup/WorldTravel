@@ -1,4 +1,4 @@
-package com.ynov.malo.worldtravel.CountriesRecycler;
+package com.ynov.malo.worldtravel.Database;
 
 import java.sql.Blob;
 import java.sql.Date;
@@ -16,6 +16,7 @@ public class Country {
     private String date;
     private String countryCode;
 
+    // Trois constructeurs, prenant des parametres en plus ou non, pour les differentes creations d'objets dans l'application
     public Country(String name, String capitalCity, String continent, String countryCode) {
         this.name = name;
         this.capitalCity = capitalCity;
@@ -41,6 +42,7 @@ public class Country {
     }
 
 
+    // Getters & Setters
     public void setId(int id) {
         this.id = id;
     }

@@ -5,8 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.ynov.malo.worldtravel.CountriesRecycler.Country;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,6 +22,8 @@ public class CountriesDAO {
 
     public CountriesDAO(Context context) {databaseHelper = new DatabaseHelper(context);}
 
+
+    // Retourne tous les pays de la base de donnees
     public List<Country> getAllCountries() {
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
 
@@ -76,6 +76,7 @@ public class CountriesDAO {
         return listCountries;
     }
 
+    // Retourne si un certain pays est deja dans la base de donnes ou non (pour la verification avec dialog) avec le nom du pays
     public boolean isCountryInDB(String name) {
         List<Country> list = getAllCountries();
         for(int i = 0; i < list.size(); i++) {
@@ -86,6 +87,7 @@ public class CountriesDAO {
         return false;
     }
 
+    // Ajoute un pays en base de donnees
     public void addCountry(Country country) {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
 
@@ -99,6 +101,7 @@ public class CountriesDAO {
         country.setId((int) db.insert(BaseContract.CountriesContract.TABLE_COUNTRIES, null, values));
     }
 
+    // Supprime un pays de la base de donnees
     public void deleteCountry(int id) {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
 
@@ -107,6 +110,7 @@ public class CountriesDAO {
         db.delete(BaseContract.CountriesContract.TABLE_COUNTRIES, selection, selectionArgs);
     }
 
+    // Formate la date enregistree en base de donnees pour qu'elle soit plus facilement lisible en vue de son affichage dans la recyclerview
     private String prepareDate(String initDate) {
         String month;
         Date date = null;
